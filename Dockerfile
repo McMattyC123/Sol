@@ -2,10 +2,15 @@
 FROM node:20-bookworm-slim
 WORKDIR /app
 
+# bigint-buffer (@solana/web3.js) needs node-gyp toolchain or it logs "pure JS will be used".
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends python3 make g++ \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY package.json package-lock.json ./
 COPY client/package.json client/package.json
 COPY server/package.json server/package.json
-RUN npm ci
+RUN npm ci && npm rebuild bigint-buffer
 
 COPY src ./src
 COPY data ./data
