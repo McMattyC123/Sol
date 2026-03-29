@@ -1,0 +1,290 @@
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  min-height: 100vh;
+  background: #1e1f22;
+  color: #e6e7e8;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  padding: 1rem;
+}
+
+.dashboard {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.dash-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.dash-header h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.dash-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.badge.ok {
+  background: #1f3d2f;
+  color: #8fdfb5;
+}
+
+.badge.bad {
+  background: #3d2020;
+  color: #f0a8a8;
+}
+
+.badge.subtle {
+  background: #2b2d31;
+  color: #949ba4;
+}
+
+.badge.warn {
+  background: #3d3420;
+  color: #f0d68a;
+}
+
+.badge.live {
+  background: #2a1f1f;
+  color: #ff8a8a;
+  font-weight: 600;
+}
+
+.alert.blocked {
+  background: #2a2520;
+  border: 1px solid #5c4a2a;
+  color: #f0d68a;
+  padding: 0.65rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.hint.warn {
+  color: #f0d68a;
+}
+
+.disclaimer {
+  font-size: 0.8rem;
+  color: #b5bac1;
+  margin: 0 0 1rem;
+  line-height: 1.4;
+}
+
+.alert.error {
+  background: #3d2020;
+  border: 1px solid #5c2a2a;
+  color: #f6c0c0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.panel {
+  background: #2b2d31;
+  border: 1px solid #1b1d20;
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.panel h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #949ba4;
+  margin: 0 0 0.5rem;
+}
+
+.muted {
+  color: #949ba4;
+  margin: 0;
+}
+
+.warn {
+  color: #f0d68a;
+  margin: 0 0 0.75rem;
+}
+
+code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85em;
+}
+
+.panel input[type='text'],
+.panel input[type='password'],
+.panel input[type='number'] {
+  width: 100%;
+  max-width: 420px;
+  padding: 0.45rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid #1b1d20;
+  background: #1e1f22;
+  color: #e6e7e8;
+  margin-top: 0.25rem;
+}
+
+label.block {
+  display: block;
+  margin-bottom: 0.65rem;
+  font-size: 0.85rem;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-row label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+}
+
+.form-row input {
+  width: 140px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 480px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+}
+
+.row-actions button,
+.panel button,
+.button-row button {
+  padding: 0.45rem 0.85rem;
+  border-radius: 4px;
+  border: none;
+  background: #4752c4;
+  color: #fff;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.panel button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.json-block {
+  margin: 0;
+  font-size: 0.78rem;
+  overflow: auto;
+  background: #1e1f22;
+  padding: 0.6rem;
+  border-radius: 4px;
+  max-height: 200px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid #1b1d20;
+}
+
+th {
+  color: #949ba4;
+  font-weight: 500;
+}
+
+.mono {
+  font-family: ui-monospace, monospace;
+  font-size: 0.72rem;
+}
+
+.log-panel .log-box {
+  max-height: 320px;
+  overflow-y: auto;
+  background: #1e1f22;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.log-line {
+  border-bottom: 1px solid #2b2d31;
+  padding: 0.35rem 0;
+}
+
+.log-line.error pre {
+  color: #f0a8a8;
+}
+
+.log-line.tick pre {
+  color: #a8c5f0;
+}
+
+.log-time {
+  color: #6d7178;
+  margin-right: 0.5rem;
+}
+
+.log-kind {
+  font-weight: 600;
+  margin-right: 0.35rem;
+}
+
+.log-line pre {
+  margin: 0.25rem 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+@media (min-width: 640px) {
+  .App {
+    padding: 1.5rem;
+  }
+}

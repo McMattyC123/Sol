@@ -1,0 +1,36 @@
+{
+  "name": "chatting-sol",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local simulation CLI: multi-wallet Solana patterns (research only)",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "bin": {
+    "sol-trade": "./src/cli.js"
+  },
+  "scripts": {
+    "cli": "node src/cli.js",
+    "start": "node src/cli.js",
+    "worker": "node src/worker.js",
+    "build:client": "npm run build -w client",
+    "start:server": "node server/index.js",
+    "start:app": "npm run build:client && node server/index.js",
+    "dev:client": "npm run dev -w client",
+    "dev:server": "node server/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.30.1",
+    "@solana/spl-token": "^0.4.13",
+    "@solana/web3.js": "^1.98.4",
+    "bs58": "^6.0.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.6.1",
+    "jito-ts": "^4.2.1"
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "label": "buyer-1",
+    "keypairPath": "/absolute/path/to/buyer1.json",
+    "group": "buyers",
+    "role": "buyer"
+  },
+  {
+    "label": "seller-1",
+    "keypairPath": "/absolute/path/to/seller1.json",
+    "group": "sellers",
+    "role": "seller"
+  }
+]

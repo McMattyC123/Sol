@@ -1,0 +1,9 @@
+# Railway (Nixpacks) — monorepo root; Node version from package.json engines
+[phases.install]
+cmds = ['npm ci']
+
+[phases.build]
+cmds = ['npm run build:client']
+
+[start]
+cmd = 'node server/index.js'
