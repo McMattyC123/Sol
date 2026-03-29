@@ -41,7 +41,7 @@ function inferRoleFromGroup(group) {
 }
 
 /**
- * WALLETS_CONFIG: [ { label, keypairPath, group?: "buyers", role?: "buyer" } ]
+ * WALLETS_CONFIG: legacy JSON array, or v2 `{ version, wallets: [...] }` (extra fields ignored for signing).
  */
 export function loadWalletEntries() {
   const configPath = process.env.WALLETS_CONFIG?.trim();
@@ -56,9 +56,12 @@ export function loadWalletEntries() {
   if (!fs.existsSync(configPath)) {
     throw new Error(`WALLETS_CONFIG not found: ${configPath}`);
   }
-  const list = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  const raw = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  const list = Array.isArray(raw) ? raw : raw.wallets;
   if (!Array.isArray(list)) {
-    throw new Error('WALLETS_CONFIG must be a JSON array');
+    throw new Error(
+      'WALLETS_CONFIG must be a JSON array or an object with a "wallets" array',
+    );
   }
   return list.map((entry) => {
     const label = String(entry.label ?? entry.id ?? 'wallet');

@@ -6,9 +6,16 @@ let urls = null;
 let connections = null;
 let rrIndex = 0;
 
+const RPC_ENV_KEYS = ['HELIUS_RPC_URL', 'QUICKNODE_RPC_URL', 'SOLANA_RPC_URL'];
+
+/** True if any Solana HTTPS RPC URL is set (does not validate reachability). */
+export function isRpcConfigured() {
+  return RPC_ENV_KEYS.some((key) => Boolean(process.env[key]?.trim()));
+}
+
 function collectUrls() {
   const out = [];
-  for (const key of ['HELIUS_RPC_URL', 'QUICKNODE_RPC_URL', 'SOLANA_RPC_URL']) {
+  for (const key of RPC_ENV_KEYS) {
     const u = process.env[key]?.trim();
     if (u) out.push(u);
   }

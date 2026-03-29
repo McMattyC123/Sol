@@ -2,7 +2,12 @@
 
 Private **CLI** and optional **web dashboard** for Solana (`sol-trade`): status, balances, SOL transfer, and simulation ticks (Jupiter + optional Jito). Run only on a machine you control; follow the security notes below if you enable HTTP.
 
-Copy [.env.example](.env.example) to `.env` and set RPC + keypair paths (see below).
+Environment templates (copy one to `.env`):
+
+- [.env.example.devnet](.env.example.devnet) — `TRADING_NETWORK=devnet`, devnet RPC placeholders, Jito host hints
+- [.env.example.mainnet](.env.example.mainnet) — `TRADING_NETWORK=mainnet` and `ALLOW_MAINNET_LIVE` gate for live trading
+
+[.env.example](.env.example) is a short pointer; prefer the files above.
 
 ## Requirements
 
@@ -16,6 +21,9 @@ node src/cli.js --help
 node src/cli.js status
 node src/cli.js wallets
 node src/cli.js transfer <RECIPIENT_ADDRESS> <SOL_AMOUNT>
+node src/cli.js wallet-create --out ./data/wallets.json --keys-dir ./data/keys --buyers 2 --sellers 2 --starting-sol 0.2 --simulation-config ./data/simulation.json
+node src/cli.js sell-all-jito --mint <TOKEN_MINT>
+node src/cli.js sell-all-jito --mint <TOKEN_MINT> --group sellers
 node src/cli.js sim tick --mint <TOKEN_MINT>
 node src/cli.js sim run --mint <TOKEN_MINT> --interval-ms 15000
 node src/cli.js repl
@@ -59,8 +67,8 @@ Vite runs on **3000** and proxies `/api` and `/socket.io` to **3001**. Optional:
 |--------|------|--------|
 | GET | `/api/health` | Liveness |
 | GET | `/api/config` | `tradingNetwork`, `allowMainnetLive`, `canMutate`, `mutationsBlockedReason` |
-| GET | `/api/status` | RPC pool + slot |
-| GET | `/api/wallets` | SOL balances |
+| GET | `/api/status` | RPC pool + slot (`version`/`slot` null if no RPC env yet) |
+| GET | `/api/wallets` | SOL balances (empty array if no RPC env) |
 | GET | `/api/sim/state` | Loop running / mint / intervals |
 | POST | `/api/transfer` | Body: `{ "to", "sol" }` — requires master password if set |
 | POST | `/api/sim/tick` | Body: `{ "mint" }` |
@@ -73,7 +81,11 @@ Socket events: **`sim:tick`** (payload per tick), **`sim:error`** (`{ message }`
 
 ### Railway
 
-The repo includes [nixpacks.toml](nixpacks.toml): `npm ci` → `npm run build:client` → `node server/index.js`. Railway sets **`PORT`** automatically.
+- **Default:** [railway.json](railway.json) uses the root [**Dockerfile**](Dockerfile): `npm ci` → `npm run build:client` (output **`client/dist/`**) → **`node server/index.js`**. Health check: **`GET /api/health`**. Full steps: [docs/RAILWAY.md](docs/RAILWAY.md).
+- **Alternative:** Turn off the Docker builder in Railway and use [nixpacks.toml](nixpacks.toml) (`npm ci` → `npm run build:client` → same start command).
+- Verify locally after install: **`npm run test:smoke`** (build + short `/api/health` / `/api/config` check).
+
+Railway sets **`PORT`** automatically (do not hardcode it in production).
 
 **Suggested variables**
 

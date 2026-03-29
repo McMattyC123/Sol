@@ -1,14 +1,37 @@
-[
-  {
-    "label": "buyer-1",
-    "keypairPath": "/absolute/path/to/buyer1.json",
-    "group": "buyers",
-    "role": "buyer"
+{
+  "version": 2,
+  "startingSolPerWallet": 0.25,
+  "totalWallets": 2,
+  "totalStartingSolDeployedApprox": 0.5,
+  "simulationConfigPath": "./data/simulation.json",
+  "marketMovingSummary": {
+    "buyerCount": 1,
+    "estimatedBuySolPerSimTick": 0.005,
+    "disclaimer": "Notional sizes from your simulation buy rule…"
   },
-  {
-    "label": "seller-1",
-    "keypairPath": "/absolute/path/to/seller1.json",
-    "group": "sellers",
-    "role": "seller"
-  }
-]
+  "wallets": [
+    {
+      "label": "buyer-1",
+      "keypairPath": "./data/keys/buyer-1.json",
+      "group": "buyers",
+      "role": "buyer",
+      "startingSol": 0.25,
+      "marketMoving": {
+        "estimatedBuySolPerSimTick": 0.005,
+        "estimatedBuyLamportsPerSimTick": "5000000",
+        "approximatePctOfStartingSolPerTick": 0.02
+      }
+    },
+    {
+      "label": "seller-1",
+      "keypairPath": "./data/keys/seller-1.json",
+      "group": "sellers",
+      "role": "seller",
+      "startingSol": 0.25,
+      "marketMoving": {
+        "sellerReserveSol": 0.25,
+        "note": "Sell leg size depends on token holdings; fund SOL covers fees / rent."
+      }
+    }
+  ]
+}

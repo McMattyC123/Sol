@@ -14,8 +14,8 @@ COPY client ./client
 
 RUN npm run build:client
 
+# Railway injects PORT at runtime (do not rely on 3001 in production).
 ENV NODE_ENV=production
-ENV PORT=3001
 EXPOSE 3001
 
 # .env / secrets: mount or inject at runtime (do not bake keypairs into the image)

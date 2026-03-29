@@ -28,6 +28,11 @@ function sleep(ms) {
  */
 export function startSimLoop(opts) {
   const { mint, intervalMs, jitterMs, loadEntries, onTick, onError } = opts;
+  const mintOk = typeof mint === 'string' && mint.trim() !== '';
+  if (!mintOk) {
+    throw new Error('startSimLoop requires a non-empty mint string');
+  }
+  const mintTrim = mint.trim();
   if (loopState.running) {
     throw new Error('Sim loop already running');
   }
@@ -35,7 +40,7 @@ export function startSimLoop(opts) {
   abortController = controller;
   loopState = {
     running: true,
-    mint,
+    mint: mintTrim,
     intervalMs,
     jitterMs,
   };
@@ -45,7 +50,7 @@ export function startSimLoop(opts) {
       while (!controller.signal.aborted) {
         try {
           const entries = loadEntries();
-          const result = await runWashTick({ outputMint: mint, entries });
+          const result = await runWashTick({ outputMint: mintTrim, entries });
           onTick?.(result);
         } catch (e) {
           onError?.(e);

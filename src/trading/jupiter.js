@@ -53,12 +53,17 @@ export async function getQuote({ inputMint, outputMint, amountRaw, slippageBps }
   return getJson(u.toString());
 }
 
+function useSharedAccountsForSwap() {
+  return (process.env.JUPITER_USE_SHARED_ACCOUNTS ?? 'true').toLowerCase() !== 'false';
+}
+
 /**
  * @param {object} quoteResponse - from getQuote
  * @param {string} userPublicKey - base58
  */
 export async function getSwapTransaction(quoteResponse, userPublicKey) {
-  return postJson(`${SWAP}/swap`, {
+  /** @type {Record<string, unknown>} */
+  const body = {
     quoteResponse,
     userPublicKey,
     wrapAndUnwrapSol: true,
@@ -66,9 +71,17 @@ export async function getSwapTransaction(quoteResponse, userPublicKey) {
     prioritizationFeeLamports: process.env.JUP_PRIORITIZATION_LAMPORTS
       ? Number(process.env.JUP_PRIORITIZATION_LAMPORTS)
       : 'auto',
-  });
+  };
+  if (useSharedAccountsForSwap()) {
+    body.useSharedAccounts = true;
+  }
+  return postJson(`${SWAP}/swap`, body);
 }
 
+/**
+ * Jupiter returns a v0 `VersionedTransaction`; it may include `addressTableLookups`
+ * so route accounts use ALT indices (compact) instead of only 32-byte static keys.
+ */
 export function deserializeSignedNeeded(swapResponse) {
   const b64 = swapResponse.swapTransaction;
   if (!b64) throw new Error('swap: missing swapTransaction');

@@ -41,9 +41,19 @@ function simWarning() {
 export async function runWashTick(opts) {
   assertTradingMutationsAllowed();
   simWarning();
-  const mint = opts.outputMint;
-  const sim = opts.config ?? loadSimulationConfig();
+  const mint = (opts.outputMint ?? '').trim();
+  if (!mint) {
+    throw new Error(
+      'runWashTick requires outputMint (SPL mint), e.g. sim tick --mint <address>',
+    );
+  }
   const entries = opts.entries;
+  if (!entries?.length) {
+    throw new Error(
+      'No wallets loaded: set WALLETS_CONFIG or SOLANA_KEYPAIR_PATH / SOLANA_PRIVATE_KEY',
+    );
+  }
+  const sim = opts.config ?? loadSimulationConfig();
   const bg = sim.buyerGroup ?? 'buyers';
   const sg = sim.sellerGroup ?? 'sellers';
   const buyers = walletsForGroup(entries, bg);
