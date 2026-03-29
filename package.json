@@ -19,7 +19,8 @@
     "start:server": "node server/index.js",
     "start:app": "npm run build:client && node server/index.js",
     "dev:client": "npm run dev -w client",
-    "dev:server": "node server/index.js"
+    "dev:server": "node server/index.js",
+    "rebuild": "npm rebuild bigint-buffer"
   },
   "engines": {
     "node": ">=20"
