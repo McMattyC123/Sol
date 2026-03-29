@@ -12,6 +12,7 @@
     "sol-trade": "./src/cli.js"
   },
   "scripts": {
+    "postinstall": "node scripts/ensure-bigint-native.mjs",
     "cli": "node src/cli.js",
     "start": "node src/cli.js",
     "worker": "node src/worker.js",

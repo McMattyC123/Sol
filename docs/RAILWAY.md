@@ -76,7 +76,7 @@ Use **HTTPS** in front of the service in production and a **strong** `CLI_MASTER
 
 | Symptom | What to check |
 |---------|----------------|
-| Log: `bigint` / `Failed to load bindings, pure JS` | Usually harmless; native `bigint-buffer` failed to compile. The **Dockerfile** adds `python3 make g++` and `npm rebuild bigint-buffer`. On your machine: install build-essential / Xcode CLT, then `npm run rebuild`. |
+| Log: `bigint` / `Failed to load bindings, pure JS` | Native `bigint-buffer` did not build. **Dockerfile** includes `python3 make g++`; **`postinstall`** runs `scripts/ensure-bigint-native.mjs` after `npm ci` to rebuild if needed. Locally: `npm run rebuild`, or install **build-essential** / Xcode CLT and run **`npm install`** again. |
 | Deploy fails on build | Build logs: `npm ci` / `build:client` must succeed locally too (`npm run build:client`). |
 | Health check never passes | Service logs: process exit? **`/api/health`** should return `{"ok":true}` without RPC. |
 | Dashboard loads but everything errors | **Guided setup**: add **RPC** + **signer**; on mainnet add **`ALLOW_MAINNET_LIVE=true`**. |

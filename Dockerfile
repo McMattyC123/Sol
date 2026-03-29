@@ -10,7 +10,8 @@ RUN apt-get update \
 COPY package.json package-lock.json ./
 COPY client/package.json client/package.json
 COPY server/package.json server/package.json
-RUN npm ci && npm rebuild bigint-buffer
+# postinstall runs scripts/ensure-bigint-native.mjs (rebuild if .node missing)
+RUN npm ci
 
 COPY src ./src
 COPY data ./data
