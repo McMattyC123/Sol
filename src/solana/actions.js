@@ -6,19 +6,36 @@ import {
   sendAndConfirmTransaction,
 } from '@solana/web3.js';
 import { assertTradingMutationsAllowed } from '../config/network.js';
-import { getRpcUrls, isRpcConfigured } from '../rpc/pool.js';
+import {
+  getRpcUrls,
+  getWsUrls,
+  isRpcConfigured,
+  isWsConfigured,
+} from '../rpc/pool.js';
 import { getConnection } from './connection.js';
 import { loadPrimaryKeypair, loadWalletEntries } from './wallet.js';
 
 export async function getStatus() {
+  let wsDisplay;
+  try {
+    const urls = getWsUrls();
+    wsDisplay = urls.map((u) =>
+      u.length > 24 ? `${u.slice(0, 12)}…${u.slice(-8)}` : u,
+    );
+  } catch {
+    wsDisplay = [];
+  }
+
   if (!isRpcConfigured()) {
     return {
       rpcPool: [
         '(no RPC URL — set HELIUS_RPC_URL, QUICKNODE_RPC_URL, or SOLANA_RPC_URL)',
       ],
+      wsPool: wsDisplay,
       version: null,
       slot: null,
       rpcConfigured: false,
+      wsConfigured: isWsConfigured(),
     };
   }
   const conn = getConnection();
@@ -35,9 +52,11 @@ export async function getStatus() {
   }
   return {
     rpcPool: rpcDisplay,
+    wsPool: wsDisplay,
     version: version['solana-core'] ?? version,
     slot,
     rpcConfigured: true,
+    wsConfigured: isWsConfigured(),
   };
 }
 

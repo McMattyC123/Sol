@@ -20,9 +20,12 @@ Every variable below is read from **`.env`** (repo root), process environment, o
 | `HELIUS_RPC_URL` | At least one RPC | Full HTTPS URL, often `https://mainnet.helius-rpc.com/?api-key=...` or devnet host | Added to the **RPC pool**. Each request round-robins to the next provider in the list. |
 | `QUICKNODE_RPC_URL` | optional | QuickNode Solana HTTPS endpoint | Same pool as above. |
 | `SOLANA_RPC_URL` | optional | Generic Solana RPC URL | Same pool as above. |
+| `HELIUS_WSS_URL` | optional | Helius Solana WebSocket endpoint (`wss://...`) | Reserved for real-time subscriptions (accounts/logs/tx). Exposed in `/api/status` as part of `wsPool`. |
+| `QUICKNODE_WSS_URL` | optional | QuickNode Solana WebSocket endpoint (`wss://...`) | Same as above. |
+| `SOLANA_WSS_URL` | optional | Generic Solana WebSocket endpoint (`wss://...`) | Same as above. |
 | `COMMITMENT` | No (default `confirmed`) | Solana commitment level | Used when creating `Connection` objects (`processed` / `confirmed` / `finalized`). Affects how “sure” balance and slot calls are before returning. |
 
-If **none** of the three URL variables are set, the app throws at startup when it needs an RPC.
+If **none** of the three HTTP RPC URL variables are set, the app throws at startup when it needs RPC. WSS-only setup is not sufficient for current transaction and balance flows.
 
 ---
 

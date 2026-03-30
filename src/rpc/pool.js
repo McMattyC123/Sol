@@ -7,6 +7,7 @@ let connections = null;
 let rrIndex = 0;
 
 const RPC_ENV_KEYS = ['HELIUS_RPC_URL', 'QUICKNODE_RPC_URL', 'SOLANA_RPC_URL'];
+const WSS_ENV_KEYS = ['HELIUS_WSS_URL', 'QUICKNODE_WSS_URL', 'SOLANA_WSS_URL'];
 
 /** True if any Solana HTTPS RPC URL is set (does not validate reachability). */
 export function isRpcConfigured() {
@@ -30,6 +31,15 @@ function collectUrls() {
 export function getRpcUrls() {
   if (!urls) urls = collectUrls();
   return urls;
+}
+
+/** True if any Solana WebSocket URL is set (does not validate reachability). */
+export function isWsConfigured() {
+  return WSS_ENV_KEYS.some((key) => Boolean(process.env[key]?.trim()));
+}
+
+export function getWsUrls() {
+  return WSS_ENV_KEYS.map((key) => process.env[key]?.trim()).filter(Boolean);
 }
 
 /**

@@ -67,7 +67,7 @@ Vite runs on **3000** and proxies `/api` and `/socket.io` to **3001**. Optional:
 |--------|------|--------|
 | GET | `/api/health` | Liveness |
 | GET | `/api/config` | `tradingNetwork`, `allowMainnetLive`, `canMutate`, `mutationsBlockedReason` |
-| GET | `/api/status` | RPC pool + slot (`version`/`slot` null if no RPC env yet) |
+| GET | `/api/status` | RPC pool + optional WSS pool + slot (`version`/`slot` null if no RPC env yet) |
 | GET | `/api/wallets` | SOL balances (empty array if no RPC env) |
 | GET | `/api/sim/state` | Loop running / mint / intervals |
 | POST | `/api/transfer` | Body: `{ "to", "sol" }` — requires master password if set |
@@ -92,6 +92,7 @@ Railway sets **`PORT`** automatically (do not hardcode it in production).
 | Variable | Purpose |
 |----------|---------|
 | `HELIUS_RPC_URL` / `SOLANA_RPC_URL` | RPC URL for your cluster |
+| `HELIUS_WSS_URL` / `QUICKNODE_WSS_URL` / `SOLANA_WSS_URL` | Optional websocket endpoints for real-time subscriptions |
 | `TRADING_NETWORK` | `mainnet`, `devnet`, or `testnet` |
 | `ALLOW_MAINNET_LIVE` | Set **`true`** for **mainnet live** (required when `TRADING_NETWORK=mainnet`) |
 | `WALLETS_CONFIG`, keypair paths | As in [.env.example](.env.example) |
@@ -126,6 +127,7 @@ Mount or inject **`.env`** and ensure keypair paths inside the container are val
 ### Environment
 
 - **`SOLANA_RPC_URL`** / **`HELIUS_RPC_URL`** / **`QUICKNODE_RPC_URL`** — RPC pool.
+- **`SOLANA_WSS_URL`** / **`HELIUS_WSS_URL`** / **`QUICKNODE_WSS_URL`** — optional WSS endpoints for account/log subscriptions.
 - **`SOLANA_KEYPAIR_PATH`** — primary keypair, **or** `SOLANA_PRIVATE_KEY` (base58).
 - **`WALLETS_CONFIG`** — JSON array of `{ "label", "keypairPath", "group": "buyers"|"sellers" }` for sim / `wallets` command.
 - **`CLI_MASTER_PASSWORD`** — optional CLI prompt **and** web/API gate for mutating routes.
